@@ -14,8 +14,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     /**
      * 登录处理
-     * @param http
-     * @throws Exception
+     * @param http 接受数据
+     * @throws Exception 异常
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -70,8 +70,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     /**
      * 忽略拦截
-     * @param web
-     * @throws Exception
+     * @param web 阿斯顿
+     * @throws Exception 阿斯顿
      */
     @Override
     public void configure(WebSecurity web) throws Exception {
