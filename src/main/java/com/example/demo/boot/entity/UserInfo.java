@@ -1,21 +1,20 @@
 package com.example.demo.boot.entity;
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import java.time.LocalDateTime;
+import com.baomidou.mybatisplus.annotation.TableField;
+import java.io.Serializable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
-import java.io.Serializable;
-import java.sql.Timestamp;
-
 /**
  * <p>
- *
+ * 
  * </p>
  *
  * @author zxj
- * @since 2019-12-29
+ * @since 2020-01-01
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -31,7 +30,7 @@ public class UserInfo implements Serializable {
     private String pkUiId;
 
     @TableField("create_time")
-    private Timestamp createTime;
+    private LocalDateTime createTime;
 
     /**
      * name
@@ -40,7 +39,10 @@ public class UserInfo implements Serializable {
     private String username;
 
     @TableField("time")
-    private Timestamp time;
+    private LocalDateTime time;
+
+    @TableField("password")
+    private String password;
 
 
 }

@@ -1,4 +1,4 @@
-package com.example.demo.tools;
+package com.example.demo.boot.utils;
 
 public class SnowFlake {
 

@@ -2,9 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.boot.mapper.RoleInfoMapper">
 
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.example.demo.boot.entity.RoleInfo">
+        <id column="pk_ri_id" property="pkRiId" />
+        <result column="type" property="type" />
+        <result column="delete_status" property="deleteStatus" />
+        <result column="auth" property="auth" />
+    </resultMap>
+
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        pk_ri_id, type, delete_status
+        pk_ri_id, type, delete_status, auth
     </sql>
 
 </mapper>

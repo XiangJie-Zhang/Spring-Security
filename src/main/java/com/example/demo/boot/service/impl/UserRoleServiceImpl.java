@@ -2,7 +2,7 @@ package com.example.demo.boot.service.impl;
 
 import com.example.demo.boot.entity.UserRole;
 import com.example.demo.boot.mapper.UserRoleMapper;
-import com.example.demo.boot.service.IUserRoleService;
+import com.example.demo.boot.service.UserRoleService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
@@ -12,9 +12,9 @@ import org.springframework.stereotype.Service;
  * </p>
  *
  * @author zxj
- * @since 2019-12-29
+ * @since 2020-01-01
  */
 @Service
-public class UserRoleServiceImpl extends ServiceImpl<UserRoleMapper, UserRole> implements IUserRoleService {
+public class UserRoleServiceImpl extends ServiceImpl<UserRoleMapper, UserRole> implements UserRoleService {
 
 }

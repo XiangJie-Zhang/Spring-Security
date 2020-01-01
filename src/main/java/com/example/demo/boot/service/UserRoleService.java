@@ -1,6 +1,6 @@
 package com.example.demo.boot.service;
 
-import com.example.demo.boot.entity.RoleInfo;
+import com.example.demo.boot.entity.UserRole;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -9,8 +9,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * </p>
  *
  * @author zxj
- * @since 2019-12-29
+ * @since 2020-01-01
  */
-public interface IRoleInfoService extends IService<RoleInfo> {
+public interface UserRoleService extends IService<UserRole> {
 
 }

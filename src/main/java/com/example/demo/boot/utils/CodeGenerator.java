@@ -1,4 +1,4 @@
-package com.example.demo.tools;
+package com.example.demo.boot.utils;
 
 
 import com.baomidou.mybatisplus.core.exceptions.MybatisPlusException;
@@ -58,8 +58,14 @@ public class CodeGenerator {
         gc.setOutputDir(projectPath + "/src/main/java");
         gc.setAuthor("zxj");
         gc.setFileOverride(true);
-        gc.setOpen(false);
         gc.setBaseColumnList(true);
+        gc.setBaseResultMap(true);
+        // 防止生成的service接口前缀为I
+        gc.setServiceName("%sService");
+        // 生成完毕后是否打开输出目录
+        gc.setOpen(false);
+        // 为true时生成entity将继承Model类，单类即可完成基于单表的业务逻辑操作，按需开启
+        gc.setActiveRecord(false);
         // gc.setSwagger2(true); 实体属性 Swagger2 注解
         mpg.setGlobalConfig(gc);
 
@@ -135,8 +141,11 @@ public class CodeGenerator {
         strategy.setNaming(NamingStrategy.underline_to_camel);
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);
         strategy.setEntityLombokModel(true);
+        // 在实体类中移除is前缀
+        strategy.setEntityBooleanColumnRemoveIsPrefix(true);
         strategy.setRestControllerStyle(true);
         strategy.setEntityTableFieldAnnotationEnable(true);
+
         // 公共父类
         // 写于父类中的公共字段
         // strategy.setSuperEntityColumns("id"); // 写了这一句后，实体类不会添加id

@@ -3,7 +3,8 @@ DROP TABLE IF EXISTS "public"."role_info";
 CREATE TABLE "public"."role_info" (
   "pk_ri_id" varchar(32) COLLATE "pg_catalog"."default" NOT NULL,
   "type" int2,
-  "delete_status" int2 NOT NULL DEFAULT 0
+  "delete_status" int2 NOT NULL DEFAULT 0,
+  "auth" varchar(200)
 )
 ;
 COMMENT ON COLUMN "public"."role_info"."pk_ri_id" IS '角色id';
