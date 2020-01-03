@@ -19,8 +19,7 @@ import java.io.IOException;
 @Component
 public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
-    @Autowired
-    SelfUserDetailsService userDetailsService;
+    private SelfUserDetailsService userDetailsService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
@@ -45,5 +44,10 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
         }
 
         chain.doFilter(request, response);
+    }
+
+    @Autowired
+    public void setUserDetailsService(SelfUserDetailsService userDetailsService) {
+        this.userDetailsService = userDetailsService;
     }
 }
