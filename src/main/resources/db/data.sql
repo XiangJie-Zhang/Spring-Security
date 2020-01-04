@@ -1,7 +1,7 @@
 
-INSERT INTO "role_info" VALUES ('1', 0, 0, 'pub');
-INSERT INTO "role_info" VALUES ('2', 1, 0, 'admin');
-INSERT INTO "role_info" VALUES ('3', 2, 0, 'super');
+INSERT INTO "role_info" VALUES ('1', 0, 0, 'ROLE_USER');
+INSERT INTO "role_info" VALUES ('2', 1, 0, 'ROLE_ADMIN');
+INSERT INTO "role_info" VALUES ('3', 2, 0, 'ROLE_SUPER');
 
 
 INSERT INTO "public"."user_info" VALUES ('1', '2019-12-29 18:57:14.771003', 'zxj',

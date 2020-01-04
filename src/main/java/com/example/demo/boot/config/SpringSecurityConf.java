@@ -17,7 +17,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  * 开启其他注解
  */
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+// securedEnabled=true, 开启 @Secured 注解.
+//  @Secured("ROLE_USER")，这个注解中的角色就是数据库中的角色，应该与数据库一致
+// prePostEnabled=true, 开启 prePostEnabled 相关的注解.
+// @PreAuthorize("hasRole('ADMIN')")，这个注解使用了hasRole，凡是使用这个方法的，会自动对参数加ROLE_前缀；这里就不需要自己加了
+@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 @Configuration
 public class SpringSecurityConf extends WebSecurityConfigurerAdapter {
 

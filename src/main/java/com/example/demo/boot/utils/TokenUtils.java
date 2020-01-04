@@ -4,20 +4,14 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import com.example.demo.boot.config.SelfUserDetails;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
 import java.io.UnsupportedEncodingException;
 import java.time.Instant;
 import java.time.ZonedDateTime;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Date;
 import java.util.stream.Collectors;
 
@@ -83,23 +77,16 @@ public class TokenUtils {
      * 从token中解析中用户信息
      *
      * @param token jwt信息
-     * @return Authentication 用户认证信息
+     * @return SelfUserDetails 用户认证信息
      */
-    public Authentication getAuthentication(String token) {
+    public SelfUserDetails getAuthentication(String token) {
 
         DecodedJWT decodedJWT = JWT.decode(token);
-        String authorityString = decodedJWT.getClaim("authorities").asString();
+        Authentication authorities = (Authentication) decodedJWT.getClaim("authorities");
+        SelfUserDetails principal = (SelfUserDetails) authorities.getPrincipal();
+        assert principal != null;
 
-        Collection<? extends GrantedAuthority> authorities = Collections.emptyList();
-
-        if (!StringUtils.isEmpty(authorityString)) {
-            authorities = Arrays.stream(authorityString.split(","))
-                    .map(SimpleGrantedAuthority::new).collect(Collectors.toList());
-        }
-
-        User principal = new User(decodedJWT.getSubject(), "", authorities);
-
-        return new UsernamePasswordAuthenticationToken(principal, "", authorities);
+        return principal;
     }
 
 }
