@@ -16,6 +16,8 @@ public class HomeController {
     @PreAuthorize("hasRole('USER')")
     @RequestMapping("/user")
     public String user() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        System.out.println(authentication);
         return "user";
     }
 
@@ -23,6 +25,8 @@ public class HomeController {
 //    @Secured("ROLE_ADMIN")
     @PreAuthorize("hasRole('ADMIN')")
     public String admin() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        System.out.println(authentication);
         return "admin";
     }
 
@@ -38,6 +42,9 @@ public class HomeController {
     @RequestMapping("/adminOrUser")
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")  // hasRole自动加ROLE前缀
     public String adminOrUser() {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        System.out.println(authentication);
         return "adminOrUser";
     }
 }

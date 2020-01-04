@@ -7,13 +7,8 @@ spring:
     data: classpath:db/data.sql
     url: jdbc:postgresql://localhost:5432/mydb
     username: postgres
-    password: 123
+    password: 123456
     initialization-mode: always
-  # 简单springSecurity密码设置
-  security:
-    user:
-      name: admin  # 用户名
-      password: 123456  # 密码
 
 #mybatis-plus配置控制台打印完整带参数SQL语句
 mybatis-plus:
