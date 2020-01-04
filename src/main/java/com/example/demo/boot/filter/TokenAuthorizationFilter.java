@@ -1,14 +1,11 @@
 package com.example.demo.boot.filter;
 
 import com.example.demo.boot.config.SelfUserDetails;
-import com.example.demo.boot.config.SelfUserDetailsService;
 import com.example.demo.boot.utils.TokenUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
@@ -31,7 +28,6 @@ import java.io.IOException;
 public class TokenAuthorizationFilter extends GenericFilterBean {
 
     private String HEADER_NAME;
-    private SelfUserDetailsService selfUserDetailsService;
 
     private final TokenUtils tokenUtils;
 
@@ -47,15 +43,12 @@ public class TokenAuthorizationFilter extends GenericFilterBean {
 
         if (tokenUtils.validateToken(token)) {
             // 从用户传来的用户信息，这里不信任
-            SelfUserDetails userTo = tokenUtils.getAuthentication(token);
-            // 根据用户名从新差一个用户信息，保存最新的
-            UserDetails userDetails =
-                    selfUserDetailsService.loadUserByUsername(userTo.getUsername());
-            if (userDetails != null) {
+            SelfUserDetails userTo = (SelfUserDetails) tokenUtils.getAuthentication(token);
+            if (userTo != null) {
                 // 这个请求是已经通过验证的，把权限放进去
                 UsernamePasswordAuthenticationToken authentication =
-                        new UsernamePasswordAuthenticationToken(userDetails, null,
-                                userDetails.getAuthorities());
+                        new UsernamePasswordAuthenticationToken(userTo, null,
+                                userTo.getAuthorities());
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails((HttpServletRequest) request));
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -89,8 +82,4 @@ public class TokenAuthorizationFilter extends GenericFilterBean {
         this.HEADER_NAME = HEADER_NAME;
     }
 
-    @Autowired
-    public void setSelfUserDetailsService(SelfUserDetailsService selfUserDetailsService) {
-        this.selfUserDetailsService = selfUserDetailsService;
-    }
 }

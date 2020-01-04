@@ -2,8 +2,10 @@ package com.example.demo.boot.config;
 
 import com.alibaba.fastjson.JSON;
 import com.example.demo.boot.bean.AjaxResponseBody;
-import com.example.demo.boot.utils.JwtTokenUtil;
+import com.example.demo.boot.utils.TokenUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
@@ -15,6 +17,8 @@ import java.io.IOException;
 @Component
 public class AjaxAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
+    private TokenUtils tokenUtils;
+
     @Override
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
         AjaxResponseBody responseBody = new AjaxResponseBody();
@@ -22,12 +26,14 @@ public class AjaxAuthenticationSuccessHandler implements AuthenticationSuccessHa
         responseBody.setStatus("200");
         responseBody.setMsg("Login Success!");
 
-        SelfUserDetails userDetails = (SelfUserDetails) authentication.getPrincipal();
-
-        String jwtToken = JwtTokenUtil.generateToken(userDetails.getUsername(), 300, "_secret");
-        responseBody.setJwtToken(jwtToken);
+        responseBody.setJwtToken(tokenUtils.generateToken(SecurityContextHolder.getContext().getAuthentication()));
 
         httpServletResponse.getWriter().write(JSON.toJSONString(responseBody));
+    }
+
+    @Autowired
+    public AjaxAuthenticationSuccessHandler(TokenUtils tokenUtils) {
+        this.tokenUtils = tokenUtils;
     }
 }
 

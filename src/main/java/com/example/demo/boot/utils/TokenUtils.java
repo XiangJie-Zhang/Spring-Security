@@ -4,9 +4,11 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.example.demo.boot.config.SelfUserDetails;
+import com.example.demo.boot.config.SelfUserDetailsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.io.UnsupportedEncodingException;
@@ -28,6 +30,8 @@ public class TokenUtils {
     //加密算法
     private final Algorithm algorithm;
 
+    private SelfUserDetailsService selfUserDetailsService;
+
     public TokenUtils() throws UnsupportedEncodingException {
         algorithm = Algorithm.HMAC256(SECRET);
     }
@@ -39,6 +43,7 @@ public class TokenUtils {
      * @return jwt内容
      */
     public String generateToken(Authentication authentication) {
+        // 获取权限列表
         String authorities = authentication.getAuthorities()
                 .stream()
                 .map(GrantedAuthority::getAuthority)
@@ -50,8 +55,11 @@ public class TokenUtils {
         //create jwt
         return JWT.create()
                 .withClaim("authorities", authorities)
+                // 添加用户名称
                 .withSubject(authentication.getName())
+                // 签发时间
                 .withIssuedAt(now)
+                // 过期时间
                 .withExpiresAt(expiration)
                 .sign(algorithm);
     }
@@ -79,14 +87,19 @@ public class TokenUtils {
      * @param token jwt信息
      * @return SelfUserDetails 用户认证信息
      */
-    public SelfUserDetails getAuthentication(String token) {
+    public UserDetails getAuthentication(String token) {
 
         DecodedJWT decodedJWT = JWT.decode(token);
-        Authentication authorities = (Authentication) decodedJWT.getClaim("authorities");
-        SelfUserDetails principal = (SelfUserDetails) authorities.getPrincipal();
-        assert principal != null;
+        String userName = decodedJWT.getSubject();
 
-        return principal;
+        assert userName != null;
+
+
+        return selfUserDetailsService.loadUserByUsername(userName);
     }
 
+    @Autowired
+    public void setSelfUserDetailsService(SelfUserDetailsService selfUserDetailsService) {
+        this.selfUserDetailsService = selfUserDetailsService;
+    }
 }

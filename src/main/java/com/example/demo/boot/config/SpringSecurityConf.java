@@ -1,5 +1,6 @@
 package com.example.demo.boot.config;
 
+import com.example.demo.boot.filter.TokenAuthorizationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -34,6 +35,7 @@ public class SpringSecurityConf extends WebSecurityConfigurerAdapter {
     private AjaxAccessDeniedHandler accessDeniedHandler;    // 无权访问返回的 JSON 格式数据给前端（否则为 403 html 页面）
     private SelfUserDetailsService userDetailsService; // 自定义user
     private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter; // JWT 拦截器
+    private TokenAuthorizationFilter tokenAuthorizationFilter; // 自定义jwt token验证
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -53,9 +55,7 @@ public class SpringSecurityConf extends WebSecurityConfigurerAdapter {
 
                 .and()
                 .authorizeRequests()
-
-                .anyRequest()
-                .access("@rbacauthorityservice.hasPermission(request,authentication)") // RBAC 动态 url 认证
+                .antMatchers("/public").permitAll()
 
                 .and()
                 .formLogin()  //开启登录
@@ -73,7 +73,8 @@ public class SpringSecurityConf extends WebSecurityConfigurerAdapter {
                 .userDetailsService(userDetailsService).tokenValiditySeconds(300);
 
         http.exceptionHandling().accessDeniedHandler(accessDeniedHandler); // 无权访问 JSON 格式的数据
-        http.addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class); // JWT Filter
+        http.addFilterBefore(tokenAuthorizationFilter,
+                UsernamePasswordAuthenticationFilter.class); // JWT Filter
 
     }
 
@@ -110,5 +111,10 @@ public class SpringSecurityConf extends WebSecurityConfigurerAdapter {
     @Autowired
     public void setJwtAuthenticationTokenFilter(JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter) {
         this.jwtAuthenticationTokenFilter = jwtAuthenticationTokenFilter;
+    }
+
+    @Autowired
+    public void setTokenAuthorizationFilter(TokenAuthorizationFilter tokenAuthorizationFilter) {
+        this.tokenAuthorizationFilter = tokenAuthorizationFilter;
     }
 }
