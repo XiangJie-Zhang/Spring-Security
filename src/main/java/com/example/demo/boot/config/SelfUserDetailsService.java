@@ -6,13 +6,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 /**
  * 自定义数据库认证
  */
 @Component
-@Service
 public class SelfUserDetailsService implements UserDetailsService {
 
     private UserInfoService userInfoService;

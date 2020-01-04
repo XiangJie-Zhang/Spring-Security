@@ -7,8 +7,9 @@ spring:
     data: classpath:db/data.sql
     url: jdbc:postgresql://localhost:5432/mydb
     username: postgres
-    password: 123456
+    password: 123
     initialization-mode: always
+
 
 #mybatis-plus配置控制台打印完整带参数SQL语句
 mybatis-plus:
@@ -19,3 +20,4 @@ mybatis-plus:
 
 server:
   port: 5660
+

@@ -8,13 +8,12 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
-import org.springframework.web.filter.GenericFilterBean;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
@@ -25,7 +24,7 @@ import java.io.IOException;
  */
 @Component
 @PropertySource("classpath:system.properties")
-public class TokenAuthorizationFilter extends GenericFilterBean {
+public class TokenAuthorizationFilter extends OncePerRequestFilter {
 
     private String HEADER_NAME;
 
@@ -36,10 +35,9 @@ public class TokenAuthorizationFilter extends GenericFilterBean {
     }
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        HttpServletRequest servletRequest = (HttpServletRequest) request;
+    protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
 
-        String token = resolveToken((HttpServletRequest) request);
+        String token = resolveToken(httpServletRequest);
 
         if (tokenUtils.validateToken(token)) {
             // 从用户传来的用户信息，这里不信任
@@ -49,13 +47,12 @@ public class TokenAuthorizationFilter extends GenericFilterBean {
                 UsernamePasswordAuthenticationToken authentication =
                         new UsernamePasswordAuthenticationToken(userTo, null,
                                 userTo.getAuthorities());
-                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails((HttpServletRequest) request));
+                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         }
-        chain.doFilter(request, response);
-
+        filterChain.doFilter(httpServletRequest, httpServletResponse);
         cleanAuthentication();
     }
 

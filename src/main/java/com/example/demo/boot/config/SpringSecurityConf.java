@@ -1,5 +1,6 @@
 package com.example.demo.boot.config;
 
+
 import com.example.demo.boot.filter.TokenAuthorizationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -29,12 +30,11 @@ public class SpringSecurityConf extends WebSecurityConfigurerAdapter {
 
 
     private AjaxAuthenticationEntryPoint authenticationEntryPoint;  //  未登陆时返回 JSON 格式的数据给前端（否则为 html）
-    private AjaxAuthenticationSuccessHandler authenticationSuccessHandler;  // 登录成功返回的 JSON 格式数据给前端（否则为 html）
+    private AjaxAuthenticationSuccessHandler ajaxAuthenticationSuccessHandler;  // 登录成功返回的 JSON// 格式数据给前端（否则为 html）
     private AjaxAuthenticationFailureHandler authenticationFailureHandler;  //  登录失败返回的 JSON 格式数据给前端（否则为 html）
     private AjaxLogoutSuccessHandler  logoutSuccessHandler;  // 注销成功返回的 JSON 格式数据给前端（否则为 登录时的 html）
     private AjaxAccessDeniedHandler accessDeniedHandler;    // 无权访问返回的 JSON 格式数据给前端（否则为 403 html 页面）
     private SelfUserDetailsService userDetailsService; // 自定义user
-    private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter; // JWT 拦截器
     private TokenAuthorizationFilter tokenAuthorizationFilter; // 自定义jwt token验证
 
     @Override
@@ -51,15 +51,15 @@ public class SpringSecurityConf extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 使用 JWT，关闭token
                 .and()
                 // 未登录时返回信息
-                .httpBasic().authenticationEntryPoint(authenticationEntryPoint)
+//                .httpBasic().authenticationEntryPoint(authenticationEntryPoint)
 
-                .and()
+//                .and()
                 .authorizeRequests()
                 .antMatchers("/public").permitAll()
 
                 .and()
                 .formLogin()  //开启登录
-                .successHandler(authenticationSuccessHandler) // 登录成功
+                .successHandler(ajaxAuthenticationSuccessHandler) // 登录成功
                 .failureHandler(authenticationFailureHandler) // 登录失败
                 .permitAll()
 
@@ -72,7 +72,7 @@ public class SpringSecurityConf extends WebSecurityConfigurerAdapter {
         http.rememberMe().rememberMeParameter("remember-me")
                 .userDetailsService(userDetailsService).tokenValiditySeconds(300);
 
-        http.exceptionHandling().accessDeniedHandler(accessDeniedHandler); // 无权访问 JSON 格式的数据
+//        http.exceptionHandling().accessDeniedHandler(accessDeniedHandler); // 无权访问 JSON 格式的数据
         http.addFilterBefore(tokenAuthorizationFilter,
                 UsernamePasswordAuthenticationFilter.class); // JWT Filter
 
@@ -85,7 +85,7 @@ public class SpringSecurityConf extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public void setAuthenticationSuccessHandler(AjaxAuthenticationSuccessHandler authenticationSuccessHandler) {
-        this.authenticationSuccessHandler = authenticationSuccessHandler;
+        this.ajaxAuthenticationSuccessHandler = authenticationSuccessHandler;
     }
 
     @Autowired
@@ -104,14 +104,10 @@ public class SpringSecurityConf extends WebSecurityConfigurerAdapter {
     }
 
     @Autowired
-    public void setUserDetailsService(com.example.demo.boot.config.SelfUserDetailsService userDetailsService) {
+    public void setUserDetailsService(SelfUserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
     }
 
-    @Autowired
-    public void setJwtAuthenticationTokenFilter(JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter) {
-        this.jwtAuthenticationTokenFilter = jwtAuthenticationTokenFilter;
-    }
 
     @Autowired
     public void setTokenAuthorizationFilter(TokenAuthorizationFilter tokenAuthorizationFilter) {
