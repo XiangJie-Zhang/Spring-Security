@@ -10,7 +10,7 @@
         <result column="time" property="time" />
         <result column="password" property="password" />
     </resultMap>
-    <resultMap id="MyResultMap" type="com.example.demo.boot.config.SelfUserDetails">
+    <resultMap id="MyResultMap" type="com.example.demo.boot.auth.SelfUserDetails">
         <id column="pk_ui_id" property="pkUiId" />
         <result column="create_time" property="createTime" />
         <result column="username" property="username" />

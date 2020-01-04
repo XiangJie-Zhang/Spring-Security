@@ -1,4 +1,4 @@
-package com.example.demo.boot.config;
+package com.example.demo.boot.auth;
 
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;

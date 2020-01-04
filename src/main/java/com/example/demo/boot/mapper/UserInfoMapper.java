@@ -1,6 +1,6 @@
 package com.example.demo.boot.mapper;
 
-import com.example.demo.boot.config.SelfUserDetails;
+import com.example.demo.boot.auth.SelfUserDetails;
 import com.example.demo.boot.entity.UserInfo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;

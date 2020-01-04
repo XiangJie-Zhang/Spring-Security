@@ -1,7 +1,7 @@
 package com.example.demo.boot.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.example.demo.boot.config.SelfUserDetails;
+import com.example.demo.boot.auth.SelfUserDetails;
 import com.example.demo.boot.entity.UserInfo;
 import com.example.demo.boot.mapper.UserInfoMapper;
 import com.example.demo.boot.service.UserInfoService;

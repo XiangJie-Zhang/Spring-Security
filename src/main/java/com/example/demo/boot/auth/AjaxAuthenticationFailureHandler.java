@@ -1,7 +1,7 @@
-package com.example.demo.boot.config;
+package com.example.demo.boot.auth;
 
 import com.alibaba.fastjson.JSON;
-import com.example.demo.boot.bean.AjaxResponseBody;
+import com.example.demo.boot.auth.AjaxResponseBody;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.stereotype.Component;

@@ -1,9 +1,12 @@
 package com.example.demo.boot.filter;
 
-import com.example.demo.boot.config.SelfUserDetails;
+import com.alibaba.fastjson.JSON;
+import com.example.demo.boot.auth.SelfUserDetails;
 import com.example.demo.boot.utils.TokenUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -35,7 +38,9 @@ public class TokenAuthorizationFilter extends OncePerRequestFilter {
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest httpServletRequest,
+                                    HttpServletResponse httpServletResponse,
+                                    FilterChain filterChain) throws ServletException, IOException {
 
         String token = resolveToken(httpServletRequest);
 
@@ -51,6 +56,11 @@ public class TokenAuthorizationFilter extends OncePerRequestFilter {
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
+        } else if (token != null) {
+            ResponseEntity<String> rs = ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
+                    "token has expired");
+
+            httpServletResponse.getWriter().write(JSON.toJSONString(rs));
         }
         filterChain.doFilter(httpServletRequest, httpServletResponse);
         cleanAuthentication();

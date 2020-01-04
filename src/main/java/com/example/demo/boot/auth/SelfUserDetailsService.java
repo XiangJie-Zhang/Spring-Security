@@ -1,4 +1,4 @@
-package com.example.demo.boot.config;
+package com.example.demo.boot.auth;
 
 import com.example.demo.boot.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;

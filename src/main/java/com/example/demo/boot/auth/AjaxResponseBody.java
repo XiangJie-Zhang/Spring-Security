@@ -1,4 +1,4 @@
-package com.example.demo.boot.bean;
+package com.example.demo.boot.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

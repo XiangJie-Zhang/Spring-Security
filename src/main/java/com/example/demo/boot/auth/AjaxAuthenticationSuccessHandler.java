@@ -1,7 +1,6 @@
-package com.example.demo.boot.config;
+package com.example.demo.boot.auth;
 
 import com.alibaba.fastjson.JSON;
-import com.example.demo.boot.bean.AjaxResponseBody;
 import com.example.demo.boot.utils.TokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
