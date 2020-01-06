@@ -32,8 +32,7 @@ public class HomeController {
 
     @RequestMapping("/public")
     public String public1() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println(authentication);
+//       throw new ServiceException("测试异常").setExpCode(ExpCode.PERMISSION_DENIED);
 
         return "public";
     }

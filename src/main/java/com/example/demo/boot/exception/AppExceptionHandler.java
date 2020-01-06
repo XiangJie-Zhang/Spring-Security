@@ -49,10 +49,4 @@ public class AppExceptionHandler {
         log.error(e.getThrowable().getMessage());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
     }
-
-    @ExceptionHandler(AuthException.class)
-    public com.example.demo.boot.common.ResponseEntity handleAuthException(AuthException e) {
-        return com.example.demo.boot.common.ResponseEntity.failed(e.getMessage())
-                .setExpCode(ExpCode.TOKEN_INVALID);
-    }
 }

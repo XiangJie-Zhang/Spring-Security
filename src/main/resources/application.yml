@@ -7,7 +7,7 @@ spring:
     data: classpath:db/data.sql
     url: jdbc:postgresql://localhost:5432/mydb
     username: postgres
-    password: 123
+    password: 123456
     initialization-mode: always
 
 

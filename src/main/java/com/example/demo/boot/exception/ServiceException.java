@@ -7,9 +7,6 @@ import org.springframework.lang.NonNull;
 
 /**
  * 业务层异常
- *
- * @author: 04637
- * @date: 2019/4/30
  **/
 @Getter
 @Setter
