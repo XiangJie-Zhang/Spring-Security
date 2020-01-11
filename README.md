@@ -14,3 +14,8 @@
 
 默认数据库中的角色`zxj`，具有`ROLE_SUPER`、`ROLE_ADMIN`权限
 
+# 更新
+**2020/1/11**
+添加csrf防护
+[介绍使用](https://awslzhang.top/2020/01/10/Spring-Security%E5%BC%80%E5%90%AF%E9%98%B2%E6%8A%A4csrf%E6%94%BB%E5%87%BB/#more)
+
