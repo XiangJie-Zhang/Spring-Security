@@ -13,7 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 /**
  * 前两个，必要注解
@@ -51,9 +51,9 @@ public class SpringSecurityConf extends WebSecurityConfigurerAdapter {
         // 去掉 CSRF
         http.cors()
                 .and()
-                .csrf().csrfTokenRepository(new HttpSessionCsrfTokenRepository())  // 开启csrf
-                // ，并把csrf放如session中
-                .and()
+                // 开启csrf
+                // ，并把csrf放如cookie中，vue无法读取session
+                .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 使用 JWT，关闭token
                 .and()
                 // 未登录时返回信息
